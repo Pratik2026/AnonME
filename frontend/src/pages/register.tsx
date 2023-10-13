@@ -39,7 +39,6 @@ const Register = () => {
       }
 
       if (data.status === true) {
-        localStorage.setItem("chattebox", data.user);
         toast.success(data.message, toastOptions);
         setTimeout(() => navigate("/login"), 3000);
       }
