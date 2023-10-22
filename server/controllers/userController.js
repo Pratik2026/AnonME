@@ -56,4 +56,23 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-export { registerUser, loginUser };
+const setAvatar = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const avatarImg = req.body.img;
+
+    const userData = await User.findByIdAndUpdate(userId, {
+      avatarImage: avatarImg,
+      isAvatarImageSet: true,
+    });
+
+    return res.json({
+      isSet: userData.isAvatarImageSet,
+      img: userData.avatarImage,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { registerUser, loginUser, setAvatar };

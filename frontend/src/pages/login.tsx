@@ -33,6 +33,7 @@ const Login = () => {
 
       if (data.status === true) {
         toast.success(data.message, toastOptions);
+        localStorage.setItem("user", JSON.stringify(data.user));
         setTimeout(() => navigate("/"), 3000);
       }
       if (data.status === false) {
