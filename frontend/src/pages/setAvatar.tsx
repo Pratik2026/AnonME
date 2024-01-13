@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { Buffer } from "buffer";
 import React from "react";
@@ -40,7 +41,7 @@ const SetAvatar = () => {
           parsedUser.isAvatarImageSet = true;
           parsedUser.avatarImage = data.img;
           localStorage.setItem("user", JSON.stringify(parsedUser));
-          navigate("/chat");
+          navigate("/");
         } else {
           toast.error("Something went wrong!", toastOptions);
         }
