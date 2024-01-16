@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.post('/setAvatar/:id', setAvatar);
-router.post('/getcontact/:id', getAllContact)
+router.post('/setavatar/:id', setAvatar);
+router.get('/getcontact/:id', getAllContact)
 
 export default router;

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAllContactsRoute } from "../utils/api_routes";
 import Contacts from "../components/contacts";
+import Welcome from "../components/welcome";
+import ChatContainer from "../components/chatcontainer";
 
 interface User {
   _id: number;
@@ -13,11 +15,13 @@ interface User {
   isAvatarImageSet: boolean;
 }
 
-
 const Chat = () => {
   const navigate = useNavigate();
   const [contact, setContact] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState<User | undefined>(
+    undefined
+  );
+  const [currentChat, setCurrentChat] = React.useState<User | undefined>(
     undefined
   );
 
@@ -27,11 +31,8 @@ const Chat = () => {
         navigate("/login");
       } else {
         const user = localStorage.getItem("user");
-        console.log(user);
         if (user) {
           const parsedUser = await JSON.parse(user);
-          console.log(parsedUser);
-          
           setCurrentUser(parsedUser);
         }
       }
@@ -41,26 +42,38 @@ const Chat = () => {
 
   React.useEffect(() => {
     const fetchContact = async () => {
-      
       if (currentUser) {
-        
         if (currentUser.isAvatarImageSet) {
           const data = await axios.get(
             `${getAllContactsRoute}/${currentUser._id}`
           );
           setContact(data.data);
-        
-      } else {
-        navigate("/setAvatar");
+        } else {
+          navigate("/setAvatar");
+        }
       }
-    }
-  };
+    };
     fetchContact();
-  }, [currentUser, navigate]);
+  }, [currentUser]);
+
+  const handleChatChange = (contact: User) => {
+    setCurrentChat(contact);
+  };
 
   return (
-    <div className="container w-screen h-screen bg-slate-400 flex flex-col justify-center items-center grid-cols-2">
-      <Contacts contacts={contact} />
+    <div className="fullwindow w-screen h-screen bg-slate-400 flex flex-col justify-center items-center">
+      <div className="container w-[90vw] h-[90vh] bg-gray-300 grid grid-cols-my2">
+        <Contacts
+          contacts={contact}
+          currentuser={currentUser}
+          chatChange={handleChatChange}
+        />
+        {currentChat === undefined ? (
+          <Welcome currentusername={currentUser?.username} />
+        ) : (
+          <ChatContainer currentChat={currentChat} />
+        )}
+      </div>
     </div>
   );
 };

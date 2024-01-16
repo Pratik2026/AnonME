@@ -81,8 +81,8 @@ const getAllContact = async (req, res, next) => {
     const allUsers = await User.find({_id: {$ne: userId}}).select([
       "username",
       "email",
-      "avatarImg",
-      "id",
+      "avatarImage",
+      "_id",
     ]);
 
     return res.json(allUsers);
