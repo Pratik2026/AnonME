@@ -3,10 +3,12 @@ import cors from "cors";
 import { config } from "dotenv";
 import connectDB from "./DB/connect_db.js";
 import colors from "colors";
-import router from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import MsgRoutes from "./routes/msgRoutes.js";
+import { Server } from "socket.io";
 
-// Config dotenv 
-config({ path: './config/config.env' });
+// Config dotenv
+config({ path: "./config/config.env" });
 
 const app = express();
 const PORT = process.env.PORT;
@@ -16,13 +18,35 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/v1", router);
-
+app.use("/api/v1", userRoutes);
+app.use("/api/v1/messages", MsgRoutes);
 
 // Connect to DB
 connectDB();
 
-
-app.listen(PORT, () => {
-    console.log(`Server is running on https://localhost:${PORT}`.green.bold)
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on https://localhost:${PORT}`.green.bold);
 });
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+
+io.on("connection", (socket) => {
+    global.chatSocket = socket;
+    socket.on("add-user", (userId) => {
+      onlineUsers.set(userId, socket.id);
+    });
+  
+    socket.on("send-msg", (data) => {
+      const sendUserSocket = onlineUsers.get(data.to);
+      if (sendUserSocket) {
+        socket.to(sendUserSocket).emit("msg-recieve", data.message);
+      }
+    });
+  });
