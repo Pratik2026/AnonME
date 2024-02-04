@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
+import { Button } from "keep-react";
 
 const Chatinput = ({ handleMsgSend }) => {
   const [msg, setmsg] = useState<string>("");
 
-  const sendChat = (e) => {
+  const sendChat = () => {
     if (msg === "") return;
     handleMsgSend(msg);
     setmsg("");
@@ -35,12 +36,9 @@ const Chatinput = ({ handleMsgSend }) => {
           rows={1}
           className="w-full py-2 px-4 rounded-xl focus:outline-none resize-none bg-[#333333] text-white"
         ></textarea>
-        <button
-          onClick={(e) => sendChat(e)}
-          className="py-2 px-4 text-center text-base text-white bg-blue-600 rounded-xl"
-        >
-          send
-        </button>
+        <Button className="px-2" onClick={() => sendChat()} size="xs" type="primary">
+          Send
+        </Button>
       </div>
     </div>
   );

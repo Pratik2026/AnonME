@@ -4,6 +4,7 @@ import Chatinput from "./chatinput";
 import axios from "axios";
 import { msgSendRoute } from "../utils/api_routes";
 import { getAllMsgRoute } from "../utils/api_routes";
+import EmojiPicker from "emoji-picker-react";
 
 const Chatcontainer = ({ currentChat, currentUser, socket }) => {
   const scrollRef = React.useRef();
@@ -82,7 +83,8 @@ const Chatcontainer = ({ currentChat, currentUser, socket }) => {
               </div>
             ))}
           </div>
-          <div className="chatinput bg-[#111111] flex justify-center items-end border border-[#222222] overflow-hidden">
+          <div className="chatinput bg-[#111111] flex justify-center items-end border border-[#222222]">
+            <EmojiPicker height={10} width={10} className="" />
             <Chatinput handleMsgSend={handleMsgSend} />
           </div>
         </div>
