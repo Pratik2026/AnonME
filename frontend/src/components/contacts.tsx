@@ -44,26 +44,26 @@ const Contacts: React.FC<contactProps> = ({
   return (
     <>
       {currentUserImage && currentUserName && (
-        <div className="w-full h-full bg-[#252331] grid grid-rows-my3">
+        <div className="bg-[#111111] grid grid-rows-my3 border border-[#222222] overflow-hidden">
           <div className="flex justify-center items-center gap-4">
             <h2 className="text-white">ChatterBox</h2>
             <img src="./google.svg" alt="" className="" />
           </div>
 
-          <div className="contactsContainer flex flex-col gap-2">
+          <div className="contactsContainer flex flex-col gap-2 overflow-auto">
             {contacts.map((contact, index) => {
               return (
                 <div
                   key={index}
                   onClick={() => handleSelectedChat(index, contact)}
                   className={`${
-                    index === selected ? "border-2 border-amber-300" : ""
-                  } bg-yellow-900 w-full h-20 flex justify-start items-center gap-4`}
+                    index === selected ? "bg-[#333333]" : ""
+                  } bg-[#111111] w-full min-h-[5rem] flex justify-start items-center gap-4 hover:bg-[#222222]`}
                 >
                   <img
                     src={`data:image/svg+xml;base64,${contact.avatarImage}`}
                     alt=""
-                    className="w-16 h-16  m-2"
+                    className="w-12 h-12  m-2"
                   />
                   <div className="text-white">{contact.username}</div>
                 </div>
@@ -75,7 +75,7 @@ const Contacts: React.FC<contactProps> = ({
             <img
               src={`data:image/svg+xml;base64,${currentUserImage}`}
               alt=""
-              className="w-16 h-16  m-2"
+              className="w-12 h-12  m-2"
             />
             <h2 className="text-white">{currentUserName}</h2>
           </div>

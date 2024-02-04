@@ -52,28 +52,28 @@ const Chatcontainer = ({ currentChat, currentUser, socket }) => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
   return (
-    <div>
+    <>
       {currentChat && (
-        <div className="chat-container w-[100%] h-[100%] flex flex-col justify-between">
-          <div className="chat-header flex justify-between items-center bg-emerald-500">
+        <div className="chat-container grid grid-rows-mycc3 overflow-hidden border border-[#222222]">
+          <div className="chat-header flex justify-between items-center bg-[#111111] border border-[#222222]">
             <div className="flex items-center gap-2">
               <img
                 src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
                 alt=""
-                className="w-16 h-16 m-2"
+                className="w-12 h-12 m-2"
               />
-              <div>{currentChat.username}</div>
+              <div className="text-white">{currentChat.username}</div>
             </div>
             <Logout />
           </div>
-          <div className="chat-messages h-full w-full px-4 py-8 flex flex-col justify-end gap-4 overflow-auto">
+          <div className="chat-messages px-6 py-8 flex flex-col gap-4 overflow-auto scroll-smooth">
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`chat-message flex items-center rounded-2xl max-w-[40%] ${
+                className={`chat-message flex flex-col max-w-[400px] leading-1.5 border-gray-200 rounded-b-xl text-white bg-[#222222] min-w-[100px] ${
                   msg.fromSelf
-                    ? " text-white justify-end bg-blue-500 self-end text-right"
-                    : " bg-green-500 justify-start self-start"
+                    ? " justify-end self-end text-left rounded-tl-xl"
+                    : " justify-start self-start rounded-tr-xl"
                 }`}
               >
                 <div className="content w-full break-words p-2 text-base">
@@ -82,10 +82,12 @@ const Chatcontainer = ({ currentChat, currentUser, socket }) => {
               </div>
             ))}
           </div>
-          <Chatinput handleMsgSend={handleMsgSend} />
+          <div className="chatinput bg-[#111111] flex justify-center items-end border border-[#222222] overflow-hidden">
+            <Chatinput handleMsgSend={handleMsgSend} />
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,28 +1,44 @@
-import React from "react";
+import { useState, useRef } from "react";
 
 const Chatinput = ({ handleMsgSend }) => {
-  const [msg, setmsg] = React.useState<string>("");
+  const [msg, setmsg] = useState<string>("");
 
   const sendChat = (e) => {
-    
-    
     if (msg === "") return;
     handleMsgSend(msg);
     setmsg("");
   };
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  console.log(textareaRef);
+
+  const handleTextareaChange = () => {
+    if (!textareaRef.current) return;
+
+    const textAreaRows = textareaRef.current.value.split("\n").length;
+    textareaRef.current.rows = textAreaRows > 2 ? 2 : textAreaRows;
+  };
+
   return (
-    <div className="flex justify-center">
-      <div className="user-input flex justify-center items-center mb-4 h-10 w-3/4 rounded-full bg-gray-700">
-        <input
-          type="text"
-          placeholder="type your message here"
+    <div className="flex w-full h-full items-center justify-center">
+      <div className="user-input flex gap-8 justify-center items-center h-full w-3/4 rounded-full ">
+        <textarea
+          placeholder="Type a message"
           name="message"
           id="message"
           value={msg}
-          onChange={(e) => setmsg(e.target.value)}
-          className="w-full h-full p-2 rounded-l-full"
-        />
-        <button onClick={(e) => sendChat(e)} className="w-1/12 h-full text-white bg-blue-600 rounded-r-full">
+          onChange={(e) => {
+            setmsg(e.target.value);
+            handleTextareaChange();
+          }}
+          ref={textareaRef}
+          rows={1}
+          className="w-full py-2 px-4 rounded-xl focus:outline-none resize-none bg-[#333333] text-white"
+        ></textarea>
+        <button
+          onClick={(e) => sendChat(e)}
+          className="py-2 px-4 text-center text-base text-white bg-blue-600 rounded-xl"
+        >
           send
         </button>
       </div>

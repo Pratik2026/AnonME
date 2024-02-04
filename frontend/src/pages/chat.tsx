@@ -74,8 +74,8 @@ const Chat = () => {
   };
 
   return (
-    <div className="fullwindow w-screen h-screen bg-slate-400 flex flex-col justify-center items-center">
-      <div className="container w-[90vw] h-[90vh] bg-gray-300 grid grid-cols-my2">
+    <div className="fullwindow w-screen h-screen bg-[#010101] flex flex-col justify-center items-center">
+      <div className="container w-[95vw] h-[95vh] bg-[#010101] grid grid-cols-my2">
         <Contacts
           contacts={contact}
           currentuser={currentUser}
