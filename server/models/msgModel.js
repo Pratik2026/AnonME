@@ -7,6 +7,10 @@ const MsgSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      type: {
+        type: String,
+        default: "text",
+      },
     },
     User: Array,
     sender: {

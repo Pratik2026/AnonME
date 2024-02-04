@@ -2,10 +2,11 @@ import Msg from "../models/msgModel.js";
 
 const addMsg = async (req, res, next) => {
   try {
-    const { from, to, msg } = req.body;
+    const { from, to, msg, msgtype } = req.body;
     const data = await Msg.create({
       message: {
         text: msg,
+        type: msgtype,
       },
       User: [from, to],
       sender: from,
@@ -33,6 +34,7 @@ const getAllMsg = async (req, res, next) => {
       return {
         fromSelf: msg.sender.toString() === from,
         message: msg.message.text,
+        type: msg.message.type,
       };
     });
 
